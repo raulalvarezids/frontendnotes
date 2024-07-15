@@ -35,10 +35,6 @@ export const getAllNotes = async (token : string) : Promise<INote[] | boolean>=>
 
 }
 
-export const getNotaById = async (id : number,token : string) => {
-    
-}
-
 
 export const addNewNote = async (title:string,content:string,token:string)  : Promise<boolean> => {
 
@@ -94,4 +90,38 @@ export const deleteNote = async (id : number,token:string) : Promise<boolean>  =
 
 
     return status
+}
+
+
+
+export const updateNote = async (title:string,content:string,id:number,token:string): Promise<boolean> => {
+
+    console.log(title,' ', content,' ', id,' ', ' ',token)
+    
+    const headers =  {
+        headers : {
+        'Authorization': `Token ${token}`   
+        }
+    }
+
+    const note = {
+        title,
+        content
+    }   
+
+    let status = false
+    
+    await axios.patch(url+'notes/'+id+'/',note,headers)
+    .then((response) => {
+        status=true
+    }        
+    )
+    .catch(error =>  {        
+        console.log(error)    
+        status=false
+    })
+
+    return status
+
+
 }

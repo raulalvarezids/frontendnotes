@@ -2,7 +2,7 @@
  
  <div>
 
-    <h4>{{ props.title }}</h4>
+    <h4 @click="handleEditarNote">{{ props.title }}</h4>
     <!-- <v-icon name="md-deleteforever" color="red"  class="icon" animation="wrench" hover="true"/> -->
      <v-icon name="md-deleteforever" color="red"  class="icon" @click="handleDelete" />
     
@@ -13,17 +13,18 @@
 <script lang="ts" setup>
 import { deleteNote } from '@/utils/fechingdata';
 import { useUserStore } from '@/stores/user';
+import type { INote } from '@/interfaces/INote';
 
 let props = defineProps<{
     id: number,    
-    title:String,
-    content: String,
-    created: String,    
+    title:string,
+    content: string,
+    created: string,    
 }>()
 
 const store = useUserStore()
 
-let emits = defineEmits(['refreshNotas'])
+let emits = defineEmits(['refreshNotas','editarNote'])
 
 const handleDelete = async () => {
     const status = await deleteNote(props.id,store.token!)
@@ -33,6 +34,19 @@ const handleDelete = async () => {
         alert('please try later')
     }
 }
+
+const handleEditarNote = () => {
+    const nota : INote = {
+        id:props.id,
+        title:props.title,
+        content:props.content,
+        created:props.created
+    }
+
+    emits('editarNote',nota)
+}
+
+
 
 </script>
 

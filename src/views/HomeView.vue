@@ -9,16 +9,15 @@
     <div class="tasks__container">
 
         <div class="btn__addnotas">           
-            <!-- <RouterLink :to="{ name: 'notas' }"  class="notas">Agregar nota</RouterLink>             -->
-            <button @click="handleShow" class="notas"  >Agregar Nota</button>
+            <button @click="handleShow" class="notas" @notEditar="" >Agregar Nota</button>
         </div>        
 
         <div v-if="show">
-            <!-- <AddOrEditNote :id=notaEditar?.id :title=notaEditar?.title :content=notaEditar?.content :created=notaEditar?.created>
-            </AddOrEditNote> -->
+            <AddOrEditNote :id=notaEditar?.id :title=notaEditar?.title :content=notaEditar?.content :created=notaEditar?.created @refreshNotas="handleRefreshNotes" @cerrar='handleShow' @notEditar="setNoteEditar">
+            </AddOrEditNote>
 
 
-            <AddOrEditNote @refreshNotas="handleRefreshNotes" @cerrar='handleShow'></AddOrEditNote>
+            <!-- <AddOrEditNote @refreshNotas="handleRefreshNotes" @cerrar='handleShow'></AddOrEditNote> -->
 
 
         </div>
@@ -27,7 +26,7 @@
         
         
         <TransitionGroup name="lista" tag="ul" >          
-            <Notas v-for="note in notas" :key="note.id"  :id="note.id" :content="note.content" :title="note.title" :created="note.created"  @refreshNotas="handleRefreshNotes" ></Notas>                      
+            <Notas v-for="note in notas" :key="note.id"  :id="note.id" :content="note.content" :title="note.title" :created="note.created"  @refreshNotas="handleRefreshNotes" @editarNote = 'handleEditarNota'></Notas>                      
         </TransitionGroup>        
 
         <h1 v-if="notas.length <= 0" class="without">Sin notas</h1>
@@ -53,16 +52,7 @@ let store = useUserStore()
 let notas : Ref<INote[]> = ref([])
 let show : Ref<boolean> = ref(false)
 
-let notaEditar : Ref<INote>  | Ref<undefined> = ref(
-    // {
-    //     id:1,
-    //     user:1,
-    //     title:'test unitario',
-    //     content:'deno de hacer el test unitario',
-    //     created:'hoy',
-    //     updated:"nunca"
-    // }
-)    
+let notaEditar : Ref<INote>  | Ref<undefined> = ref()    
 
 
 
@@ -72,6 +62,12 @@ const handleShow = () => {
 
 const handleEditarNota = (note : INote) => {
     notaEditar.value = note
+    show.value = true
+}
+
+const setNoteEditar = () => {
+    console.log('here')
+    notaEditar.value = undefined
 }
 
 
