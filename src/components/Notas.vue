@@ -4,20 +4,35 @@
 
     <h4>{{ props.title }}</h4>
     <!-- <v-icon name="md-deleteforever" color="red"  class="icon" animation="wrench" hover="true"/> -->
-     <v-icon name="md-deleteforever" color="red"  class="icon" />
+     <v-icon name="md-deleteforever" color="red"  class="icon" @click="handleDelete" />
     
  </div>
 
 </template>
 
 <script lang="ts" setup>
+import { deleteNote } from '@/utils/fechingdata';
+import { useUserStore } from '@/stores/user';
 
-let props = defineProps({
-    id: Number,    
+let props = defineProps<{
+    id: number,    
     title:String,
     content: String,
     created: String,    
-})
+}>()
+
+const store = useUserStore()
+
+let emits = defineEmits(['refreshNotas'])
+
+const handleDelete = async () => {
+    const status = await deleteNote(props.id,store.token!)
+    if(status){
+        emits('refreshNotas',false)
+    }else{
+        alert('please try later')
+    }
+}
 
 </script>
 

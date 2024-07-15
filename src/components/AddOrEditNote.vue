@@ -1,5 +1,10 @@
 <template>    
-    <div>
+    <form>
+
+        <div v-if="error" class="error__container"> 
+            <span >Por favor llene todos los campos</span>            
+        </div>
+
         <div v-if="props.id" class="containers date__container">
             <label>Fecha</label>
             <input type="text" disabled class="date" v-model="props.created" >
@@ -18,13 +23,13 @@
         <div class="btn__actions">            
             
             <button v-if="props.id">Actualiar</button>
-            <button v-else @click="handleAgregarNota">Agregar</button>
+            <button v-else @click.prevent="handleAgregarNota">Agregar</button>
 
-            <button @click="handleCerrar">Cancelar</button>
+            <button @click.prevent="handleCerrar">Cancelar</button>
         </div>
         
 
-</div>    
+    </form>    
 </template>
 
 <script lang="ts" setup>
@@ -37,6 +42,8 @@ let title : Ref<string> = ref('')
 let content : Ref<string> = ref('')
 let store = useUserStore()
 let token = store.token
+let error : Ref<boolean> = ref(false)
+
 
 let props  =  defineProps<{
     id?:number,
@@ -55,13 +62,18 @@ onMounted(() => {
 const emits = defineEmits(['refreshNotas','cerrar'])
 
 const handleAgregarNota = async () => {
-    
-    let status  = await addNewNote(title.value,content.value,token!)    
-    if(status){    
-        emits('refreshNotas')
+
+    if(title.value == '' || content.value == ''){
+        error.value=true
+    }else{
+        error.value=false
+        let status  = await addNewNote(title.value,content.value,token!)    
+
+        if(status){    
+            emits('refreshNotas',true)
+        }
     }
 }
-
 
 const handleCerrar = () => {
     emits('cerrar')
@@ -70,7 +82,7 @@ const handleCerrar = () => {
 </script>
 
 <style scoped>
-div{
+form{
     border: 1px solid black;
     border-radius: 5px;
     margin: 10px;    
@@ -115,4 +127,10 @@ button{
     padding: 7px 15px;
     border-radius:5px;
 }
+
+
+.error__container{
+    text-align: center
+}
+
 </style>

@@ -68,3 +68,30 @@ export const addNewNote = async (title:string,content:string,token:string)  : Pr
 
     return status
 }
+
+
+export const deleteNote = async (id : number,token:string) : Promise<boolean>  => {
+
+    const headers =  {
+        headers : {
+        'Authorization': `Token ${token}`   
+        }
+    }
+
+
+    let status = false
+    
+    await axios.delete(url+'notes/'+id+'/',headers)
+    .then((response) => {
+        status=true
+    }        
+    )
+    .catch(error =>  {        
+        console.log(error)    
+        status=false
+
+    })
+
+
+    return status
+}

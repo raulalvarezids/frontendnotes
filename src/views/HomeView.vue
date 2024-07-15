@@ -27,9 +27,7 @@
         
         
         <TransitionGroup name="lista" tag="ul" >          
-            <Notas v-for="note in notas" :key="note.id"  :id="note.id" :content="note.content" :title="note.title" :created="note.created"></Notas>
-             <!-- <task  v-if="store.token==null" v-for="(x) in localTasks" :text=x.descripcion  :status="x.status"  :id="x._id" :key="x._id" @handledeleted="handleDeleteLocal" ></task>
-             <task  v-else v-for="(x) in userTask" :text=x.descripcion  :status=x.status  :id="x._id" :key="x._id+x.descripcion" @deleting="deleteTaskHome" ></task> -->
+            <Notas v-for="note in notas" :key="note.id"  :id="note.id" :content="note.content" :title="note.title" :created="note.created"  @refreshNotas="handleRefreshNotes" ></Notas>                      
         </TransitionGroup>        
 
         <h1 v-if="notas.length <= 0" class="without">Sin notas</h1>
@@ -77,9 +75,12 @@ const handleEditarNota = (note : INote) => {
 }
 
 
-const handleRefreshNotes = async  () => {
-    
-    handleShow()
+const handleRefreshNotes = async  (shows:boolean) => {
+    console.log(shows)
+    if(shows) {
+        handleShow()
+    }
+
     await handleGetAllNotes()
 }
 
@@ -142,5 +143,15 @@ onMounted( async () => {
     border-radius:5px;
 
 }
+
+.lista-enter-active, .lista-leave-active {
+    transition: all 0.5s ease;
+}
+
+.lista-enter-from, .lista-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
 
 </style>
