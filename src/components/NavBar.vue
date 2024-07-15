@@ -29,7 +29,8 @@ const handleLogOut = () => {
     setTimeout(() => {
         store.token=null
         store.error=null        
-        router.push('/')    
+        store.username=null
+        router.push('/login')    
     }, 800);
     
 }

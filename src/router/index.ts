@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import LoginView from '@/views/LoginView.vue'
-import AddNoteView from '@/views/AddNoteView.vue'
 import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
@@ -31,15 +30,7 @@ const router = createRouter({
       meta:{
         requireAuth: false
       }
-    },   
-    {
-      path:'/notas/:id?',
-      name:'notas',
-      component:AddNoteView,            
-      meta:{
-        requireAuth: true
-      }
-    }
+    },     
   ]
 })
 

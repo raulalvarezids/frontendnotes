@@ -16,10 +16,6 @@
             <AddOrEditNote :id=notaEditar?.id :title=notaEditar?.title :content=notaEditar?.content :created=notaEditar?.created @refreshNotas="handleRefreshNotes" @cerrar='handleShow' @notEditar="setNoteEditar">
             </AddOrEditNote>
 
-
-            <!-- <AddOrEditNote @refreshNotas="handleRefreshNotes" @cerrar='handleShow'></AddOrEditNote> -->
-
-
         </div>
 
         
@@ -56,8 +52,13 @@ let notaEditar : Ref<INote>  | Ref<undefined> = ref()
 
 
 
-const handleShow = () => {    
-    show.value = !show.value
+const handleShow = () => {        
+    
+    if( notaEditar.value == undefined){
+        show.value = !show.value
+    }
+
+    notaEditar.value=undefined        
 }
 
 const handleEditarNota = (note : INote) => {
