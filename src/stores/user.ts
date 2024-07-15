@@ -21,11 +21,9 @@ export const useUserStore = defineStore('user', {
             .then(response => {
                 this.error = null                
                 this.token = response.data.token
-                this.username = response.data.user.username
-                console.log(response)
+                this.username = response.data.user.username                
             })
-            .catch(error => {                
-                console.log(error)
+            .catch(error => {                                
                 this.token=null
                 this.error = error.response.data.detail                      
             })

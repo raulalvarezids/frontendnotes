@@ -1,11 +1,44 @@
+import type { INote } from "@/interfaces/INote"
 import axios from "axios"
 
 const url = import.meta.env.VITE_HOST
 
 
+export const getAllNotes = async (token : string) : Promise<INote[] | boolean>=> {
+    const headers =  {
+        headers : {
+        'Authorization': `Token ${token}`   
+        }
+    }    
+
+    let status  = false
+    let notas : INote[] = []
+
+
+    await axios.get(url+'notes/',headers)
+    .then(response => {               
+    console.log(response)  
+    notas = response.data
+    })
+    .catch((error) => { 
+        console.log(error)                               
+        status = true
+    })
+
+    if(!status)
+        return notas
+
+    return status
+
+
+
+
+}
+
 export const getNotaById = async (id : number,token : string) => {
     
 }
+
 
 export const addNewNote = async (title:string,content:string,token:string)  : Promise<boolean> => {
 

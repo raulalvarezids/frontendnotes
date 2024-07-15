@@ -1,5 +1,5 @@
 <template>    
-    <form>
+    <div>
         <div v-if="props.id" class="containers date__container">
             <label>Fecha</label>
             <input type="text" disabled class="date" v-model="props.created" >
@@ -18,13 +18,13 @@
         <div class="btn__actions">            
             
             <button v-if="props.id">Actualiar</button>
-            <button v-else @click.prevent="handleAgregarNota">Agregar</button>
+            <button v-else @click="handleAgregarNota">Agregar</button>
 
-            <button>Cancelar</button>
+            <button @click="handleCerrar">Cancelar</button>
         </div>
         
 
-    </form>        
+</div>    
 </template>
 
 <script lang="ts" setup>
@@ -45,8 +45,6 @@ let props  =  defineProps<{
     created?:string
 }>()
 
-
-
 onMounted(() => {
     if (props.id) {
         title.value = props.title!
@@ -54,20 +52,25 @@ onMounted(() => {
     }
 })
 
+const emits = defineEmits(['refreshNotas','cerrar'])
+
 const handleAgregarNota = async () => {
     
-    let status  = await addNewNote(title.value,content.value,token!)
-
-    if(status){
-        
+    let status  = await addNewNote(title.value,content.value,token!)    
+    if(status){    
+        emits('refreshNotas')
     }
 }
 
 
+const handleCerrar = () => {
+    emits('cerrar')
+}
+
 </script>
 
 <style scoped>
-form{
+div{
     border: 1px solid black;
     border-radius: 5px;
     margin: 10px;    

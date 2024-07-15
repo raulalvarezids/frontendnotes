@@ -1,8 +1,8 @@
 export interface INote {
     id: number,
-    user: number,
+    user?: number,
     title:string,
     content: string,
     created: string,
-    updated: string
+    updated?: string
 }

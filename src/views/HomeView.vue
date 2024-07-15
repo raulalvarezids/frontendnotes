@@ -10,18 +10,24 @@
 
         <div class="btn__addnotas">           
             <!-- <RouterLink :to="{ name: 'notas' }"  class="notas">Agregar nota</RouterLink>             -->
-            <button @click="handleShow" class="notas" >Agregar Nota</button>
+            <button @click="handleShow" class="notas"  >Agregar Nota</button>
         </div>        
 
         <div v-if="show">
-            <AddOrEditNote :id=notaEditar?.id :title=notaEditar?.title :content=notaEditar?.content :created=notaEditar?.created>
-            </AddOrEditNote>
+            <!-- <AddOrEditNote :id=notaEditar?.id :title=notaEditar?.title :content=notaEditar?.content :created=notaEditar?.created>
+            </AddOrEditNote> -->
+
+
+            <AddOrEditNote @refreshNotas="handleRefreshNotes" @cerrar='handleShow'></AddOrEditNote>
+
+
         </div>
 
         
         
         
-        <TransitionGroup name="lista" tag="ul" >            
+        <TransitionGroup name="lista" tag="ul" >          
+            <Notas v-for="note in notas" :key="note.id"  :id="note.id" :content="note.content" :title="note.title" :created="note.created"></Notas>
              <!-- <task  v-if="store.token==null" v-for="(x) in localTasks" :text=x.descripcion  :status="x.status"  :id="x._id" :key="x._id" @handledeleted="handleDeleteLocal" ></task>
              <task  v-else v-for="(x) in userTask" :text=x.descripcion  :status=x.status  :id="x._id" :key="x._id+x.descripcion" @deleting="deleteTaskHome" ></task> -->
         </TransitionGroup>        
@@ -40,11 +46,13 @@ import { useUserStore } from '@/stores/user';
 import type { INote } from '@/interfaces/INote';
 import { computed } from 'vue'; 
 import AddOrEditNote from '@/components/AddOrEditNote.vue';
+import { getAllNotes } from '@/utils/fechingdata';
+import Notas from '@/components/Notas.vue';
 
 let store = useUserStore()
 
-let notas : Ref<INote[]> = ref([])
 
+let notas : Ref<INote[]> = ref([])
 let show : Ref<boolean> = ref(false)
 
 let notaEditar : Ref<INote>  | Ref<undefined> = ref(
@@ -58,11 +66,9 @@ let notaEditar : Ref<INote>  | Ref<undefined> = ref(
     // }
 )    
 
-onMounted(() => {     
 
-})
 
-const handleShow = () => {
+const handleShow = () => {    
     show.value = !show.value
 }
 
@@ -71,13 +77,28 @@ const handleEditarNota = (note : INote) => {
 }
 
 
-const handleRefreshNotes = () => {
-
+const handleRefreshNotes = async  () => {
+    
+    handleShow()
+    await handleGetAllNotes()
 }
 
 const handleGetAllNotes = async () => {
-    
+    const notasGet = await getAllNotes(store.token!)
+
+    if(typeof notasGet != 'boolean'){
+        notas.value=notasGet
+    }else{
+        console.log('error')
+    }
 }
+
+
+
+onMounted( async () => {     
+    await handleGetAllNotes()
+})
+
 
 
 </script>
