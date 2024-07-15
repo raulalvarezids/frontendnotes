@@ -27,9 +27,7 @@ const router = useRouter()
 const handleLogOut = () => {
 
     setTimeout(() => {
-        store.token=null
-        store.error=null        
-        store.username=null
+        store.deleteData()
         router.push('/login')    
     }, 800);
     

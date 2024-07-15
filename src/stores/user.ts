@@ -3,6 +3,7 @@ import type { IUserStore } from '@/interfaces/IStoreUser'
 import type { IUserLogin } from '@/interfaces/IUserLogin'
 import type { IUserRegister } from '@/interfaces/IUserRegister'
 import axios from 'axios'
+import { CoColumns } from 'oh-vue-icons/icons'
 
 export const useUserStore = defineStore('user', {
   state: () : IUserStore => {
@@ -31,6 +32,28 @@ export const useUserStore = defineStore('user', {
             
     },
     async register (data : IUserRegister)  {
+
+      const url = import.meta.env.VITE_HOST       
+      
+      await axios.post(url+'user/register/',data)
+            .then(response => {
+                this.error = null                
+                this.token = response.data.token
+                this.username = response.data.user.username                
+            })
+            .catch(error => {                                
+                this.token=null
+                this.error = error.response.data.detail            
+                
+                console.log(error.response.data.error.non_field_errors)
+                if(error.response.data.error){
+                  this.error = error.response.data.error.username
+                }
+
+                if(error.response.data.error.non_field_errors){
+                  this.error='Email must be unique'
+                }                                  
+            })
       
     },
 

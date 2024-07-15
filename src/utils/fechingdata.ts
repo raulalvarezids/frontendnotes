@@ -16,8 +16,7 @@ export const getAllNotes = async (token : string) : Promise<INote[] | boolean>=>
 
 
     await axios.get(url+'notes/',headers)
-    .then(response => {               
-    console.log(response)  
+    .then(response => {                   
     notas = response.data
     })
     .catch((error) => { 
