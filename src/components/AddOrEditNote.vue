@@ -139,15 +139,19 @@ form{
 
 .date{
     width: 70%;
+    text-align: end;
 }
 
 input{
     outline: none;
+    border-radius: 5px;
 }
 
 textarea{
     outline: none;
     height: 100px;
+    border-radius: 5px;
+    border-color: black;
 }
 
 .btn__actions{
@@ -163,10 +167,12 @@ button{
     font-size: 12px;
     padding: 7px 15px;
     border-radius:5px;
+    cursor: pointer;
 }
 
 button:disabled{
     color: grey;
+    cursor:inherit;
 }
 
 .error__container{
@@ -180,5 +186,28 @@ button:disabled{
 .error__span{
     color:red;
 }
+
+
+@media(min-width:1100px) {
+    .date{
+        width: 40%;
+        text-align: end;
+    }
+    label{
+        font-size: 25px
+    }
+
+    input{    
+        font-size: 18px;
+        padding:5px;
+    }
+
+    textarea{
+        font-size: 15px
+    }
+    button{
+        font-size: 15px
+    }
+}   
 
 </style>

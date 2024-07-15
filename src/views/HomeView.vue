@@ -6,7 +6,7 @@
     </div>
     
     
-    <div class="tasks__container">
+    <div class="notes__container">
 
         <div class="btn__addnotas">           
             <button @click="handleShow" class="notas" @notEditar="" >Agregar Nota</button>
@@ -114,9 +114,9 @@ onMounted( async () => {
 }
  
 .title{ 
-    font-size: 20px;          
+    font-size: 40px;          
 }
-.tasks__container{
+.notes__container{
     width: 85%;
     margin: 0 auto;
 }
@@ -138,6 +138,7 @@ onMounted( async () => {
     font-size: 12px;
     padding: 7px 15px;
     border-radius:5px;
+    cursor: pointer;
 
 }
 
@@ -149,6 +150,28 @@ onMounted( async () => {
     opacity: 0;
     transform: translateX(30px);
 }
+
+
+@media(min-width:1100px) {
+    .tittle{
+        width: 65%;    
+        font-size: 50px
+    }
+
+    .notes__container{
+        width: 65%;        
+    }
+    .without{        
+        font-size: 28px;    
+    }
+
+    .notas{    
+        font-size: 15px;    
+    }
+
+}
+
+
 
 
 </style>

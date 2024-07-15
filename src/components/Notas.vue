@@ -74,4 +74,17 @@ h4{
     cursor: pointer;
 }
 
+
+@media(min-width:1100px) {
+    .icon{
+        cursor: pointer;        
+    }
+
+    h4{
+        font-size: 20px
+    }
+    
+
+}
+
 </style>
