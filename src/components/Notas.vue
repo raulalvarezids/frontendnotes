@@ -1,10 +1,10 @@
 <template>
  
- <div>
+ <div id="nota__container">
 
     <h4 @click="handleEditarNote">{{ props.title }}</h4>
     <!-- <v-icon name="md-deleteforever" color="red"  class="icon" animation="wrench" hover="true"/> -->
-     <v-icon name="md-deleteforever" color="red"  class="icon" @click="handleDelete" />
+     <v-icon name="md-deleteforever" color="red"  :id="props.title" class="icon" @click="handleDelete" />
     
  </div>
 

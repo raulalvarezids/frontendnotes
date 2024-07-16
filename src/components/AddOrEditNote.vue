@@ -17,20 +17,20 @@
 
         <div class="containers">
             <label>Titulo</label>
-            <input v-model="title" type="text" >
+            <input v-model="title" type="text" id="tittle" >
         </div>
         
         <div  class="containers">
             <label>Descripcion</label>
-            <textarea v-model="content"></textarea>
+            <textarea v-model="content" id="description"></textarea>
         </div>
 
         <div class="btn__actions">            
             
-            <button v-if="props.id" @click.prevent="handleActualizar" :disabled="handleChanged">Actualiar</button>
-            <button v-else @click.prevent="handleAgregarNota">Agregar</button>
+            <button v-if="props.id" @click.prevent="handleActualizar" :disabled="handleChanged" id="update">Actualiar</button>
+            <button v-else @click.prevent="handleAgregarNota" id="add">Agregar</button>
 
-            <button @click.prevent="handleCerrar">Cancelar</button>
+            <button @click.prevent="handleCerrar" id="cancel">Cancelar</button>
         </div>
         
 

@@ -43,16 +43,19 @@ export const useUserStore = defineStore('user', {
             })
             .catch(error => {                                
                 this.token=null
-                this.error = error.response.data.detail            
-                
-                console.log(error.response.data.error.non_field_errors)
-                if(error.response.data.error){
-                  this.error = error.response.data.error.username
-                }
+                this.error = error.response.data.detail                                          
 
                 if(error.response.data.error.non_field_errors){
-                  this.error='Email must be unique'
-                }                                  
+                  this.error = 'Email alredy exist'
+                  return
+                }
+
+
+                if(error.response.data.error){
+                  this.error = error.response.data.error.username[0]
+                }
+
+                                                  
             })
       
     },

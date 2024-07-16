@@ -25,8 +25,7 @@
             <Notas v-for="note in notas" :key="note.id"  :id="note.id" :content="note.content" :title="note.title" :created="note.created"  @refreshNotas="handleRefreshNotes" @editarNote = 'handleEditarNota'></Notas>                      
         </TransitionGroup>        
 
-        <h1 v-if="notas.length <= 0" class="without">Sin notas</h1>
-
+        <h1 v-if="messageShow" class="without">Sin notas</h1>
 
     </div>
 
@@ -47,7 +46,7 @@ let store = useUserStore()
 
 let notas : Ref<INote[]> = ref([])
 let show : Ref<boolean> = ref(false)
-
+let messageShow : Ref<boolean> = ref(false)
 let notaEditar : Ref<INote>  | Ref<undefined> = ref()    
 
 
@@ -66,24 +65,23 @@ const handleEditarNota = (note : INote) => {
     show.value = true
 }
 
-const setNoteEditar = () => {
-    console.log('here')
+const setNoteEditar = () => {    
     notaEditar.value = undefined
 }
 
 
-const handleRefreshNotes = async  (shows:boolean) => {
-    console.log(shows)
+const handleRefreshNotes = async  (shows:boolean) => {    
     if(shows) {
         handleShow()
     }
-
+    
     await handleGetAllNotes()
+     handleshowmessage()
 }
 
-const handleGetAllNotes = async () => {
+const handleGetAllNotes = async () => {    
     const notasGet = await getAllNotes(store.token!)
-
+    
     if(typeof notasGet != 'boolean'){
         notas.value=notasGet
     }else{
@@ -91,10 +89,17 @@ const handleGetAllNotes = async () => {
     }
 }
 
-
+const handleshowmessage =  () => {
+    if (notas.value.length <= 0){
+        messageShow.value=true
+    }else{
+        messageShow.value=false
+    }        
+}
 
 onMounted( async () => {     
     await handleGetAllNotes()
+    handleshowmessage()
 })
 
 

@@ -4,22 +4,24 @@
 
     <div class="main__container">
         <h1>Login</h1>
-        
+        <div v-if="errorData !== ''" class="errorres">
+            <span id="errorti">{{ errorData }}</span>
+        </div>
         <form   class="inputs__container">
             <div class="data__container">
                 <label>Email o Username</label>
-                <input type="text" v-model="field">
+                <input type="text" v-model="field" id="email">
                 <span v-if="errorEmail">email cant be empty</span>       
              
             </div>
 
             <div class="data__container">
                 <label>Password</label>
-                <input type="password" v-model="password">
+                <input type="password" v-model="password" id="password">
                 <span v-if="errorPassword">Password cant be empty</span>
             </div>
 
-            <button @click.prevent="handleLogin">Log in</button>
+            <button @click.prevent="handleLogin" id="botonlogin">Log in</button>
         </form>
         
     </div>
@@ -33,7 +35,7 @@
     import { useUserStore } from '@/stores/user';
     import { useRouter } from 'vue-router';
 
-
+    let errorData = ref('')
     let field = ref('')
     let password = ref('')    
 
@@ -68,8 +70,8 @@
             errorPassword.value=false       
             await store.login({field:field.value,password:password.value})
             
-            if(store.error !== null){
-                alert(store.error)
+            if(store.error !== null){                
+                errorData.value = store.error
             }else{
                 router.push({name:'home'})    
 
@@ -142,6 +144,10 @@ span{
     color: red;
 }
 
+
+.errorres{
+text-align: center
+}
 
 @media(min-width:1100px) {
     .main__container{

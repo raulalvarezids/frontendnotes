@@ -4,25 +4,30 @@
 
     <div class="main__container">
         <h1>Register</h1>
-    
+        
+        <div v-if="errorData !== ''" class="errorres">
+            <span id="errorcitos">{{ errorData }}</span>
+        </div>
+
+
         <form   class="inputs__container">
             <div class="data__container">
                 <label>Username</label>
-                <input type="text" v-model="username">      
+                <input type="text" v-model="username" id='username'>      
                 <span v-if="errorEmail">username cant be empty</span>                       
             </div>
 
 
             <div class="data__container">
                 <label>Email</label>
-                <input type="email" v-model="email">      
+                <input type="email" v-model="email" id="email">      
                 <span v-if="errorEmail">email cant be empty</span>       
                 <span v-if="invalidEmail">Please enter a valid email address</span>     
             </div>
 
             <div class="data__container">
                 <label>Password</label>
-                <input type="password" v-model="password">
+                <input type="password" v-model="password" id="password">
                 <span v-if="errorPassword">Password cant be empty</span>
             </div>
 
@@ -39,7 +44,7 @@
     import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 
-
+    let errorData = ref('')
     let email = ref('')
     let password = ref('')
     let username = ref('')
@@ -98,7 +103,7 @@ import { useRouter } from 'vue-router';
          
 
             if(store.error !== null){
-                alert(store.error)
+                errorData.value = store.error
             }else{
                 router.push({name:'home'})
             }
@@ -110,6 +115,10 @@ import { useRouter } from 'vue-router';
 </script>
 
 <style scoped>
+
+.errorres{
+text-align: center
+}
 
 .main__container{
     width: 80%;
