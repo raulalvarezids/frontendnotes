@@ -15,7 +15,7 @@ export const getAllNotes = async (token : string) : Promise<INote[] | boolean>=>
     let notas : INote[] = []
 
 
-    await axios.get(url+'notes/',headers)
+    await axios.get(url+'/notes/',headers)
     .then(response => {                   
     notas = response.data
     })
@@ -50,7 +50,7 @@ export const addNewNote = async (title:string,content:string,token:string)  : Pr
 
     let status = false
     
-    await axios.post(url+'notes/',note,headers)
+    await axios.post(url+'/notes/',note,headers)
     .then((response) => {
         status=true
     }        
@@ -76,7 +76,7 @@ export const deleteNote = async (id : number,token:string) : Promise<boolean>  =
 
     let status = false
     
-    await axios.delete(url+'notes/'+id+'/',headers)
+    await axios.delete(url+'/notes/'+id+'/',headers)
     .then((response) => {
         status=true
     }        
@@ -110,7 +110,7 @@ export const updateNote = async (title:string,content:string,id:number,token:str
 
     let status = false
     
-    await axios.patch(url+'notes/'+id+'/',note,headers)
+    await axios.patch(url+'/notes/'+id+'/',note,headers)
     .then((response) => {
         status=true
     }        

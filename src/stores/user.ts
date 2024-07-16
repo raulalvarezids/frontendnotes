@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
     async login (data : IUserLogin)  {
       const url = import.meta.env.VITE_HOST       
       
-      await axios.post(url+'user/login/',data)
+      await axios.post(url+'/user/login/',data)
             .then(response => {
                 this.error = null                
                 this.token = response.data.token
@@ -35,7 +35,7 @@ export const useUserStore = defineStore('user', {
 
       const url = import.meta.env.VITE_HOST       
       
-      await axios.post(url+'user/register/',data)
+      await axios.post(url+'/user/register/',data)
             .then(response => {
                 this.error = null                
                 this.token = response.data.token
